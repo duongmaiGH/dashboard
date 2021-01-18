@@ -12,6 +12,7 @@ import SignUp from './components/SignUp';
 import ResetPassword from './components/ResetPassword';
 import Landing from './components/Landing'
 import LandingHeader from './components/LandingHeader'
+import profile from './components/profile';
 function App(props) {
 
   const { isAuthenticated, isLoading } = props.auth;
@@ -39,6 +40,7 @@ function App(props) {
             
            
             <Route path="/board/:id" component={Board} isAuthenticated={isAuthenticated} isLoading={isLoading} />
+            <Route path="/profile" component={profile}  />
           </Switch>
         </Router>
         );

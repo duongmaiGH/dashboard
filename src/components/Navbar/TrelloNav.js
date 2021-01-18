@@ -16,7 +16,10 @@ import { logoutUser } from "../../actions";
 import MailIcon from '@material-ui/icons/Mail';
 import { myFirebase } from '../../firebase/firebase';
 import { Badge } from '@material-ui/core';
-import  nonotif from "../../img/nonotif.svg"
+import nonotif from "../../img/nonotif.svg"
+import ActionLogout from './ActionLogout';
+import CallToActionIcon from '@material-ui/icons/CallToAction';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 const MainNav = styled.div`
     /*background: ${(props) => props.color || 'rgba(2, 106, 167, 1)'};*/
     margin: auto;
@@ -65,28 +68,43 @@ const SignButton = styled.div`
     }
     margin: 0 4px 0 4px;
 `;
+
+const ListOptions = styled.div`
+    display: inline-block;
+    margin-right: 15px;
+    border-radius: .3rem;
+    padding: 0.4rem 0.6rem 0.4rem 0.6rem;
+    color: #172b4d;
+    opacity: 0.7;
+    
+    &:hover {
+        background-color: #e1e2e6;
+        
+    }
+`;
+
 const TrelloNav = (props) => {
     const { isAuthenticated, isLoading } = props;
     const { backgroundColor } = props.theme;
-    const [notiList,setNotiList] = useState()
-    
-  
+    const [ notiList, setNotiList ] = useState()
+    const [ showActionList, setShowActionList ] = React.useState(false);
+
     let newColor = '';
     if (backgroundColor) {
         newColor = Color(backgroundColor).darken(0.2).hsl().string();
     }
-    const handleMenuClick = () =>{
+    const handleMenuClick = () => {
         const user = myFirebase.auth().currentUser.uid
-            const notiRef = myFirebase.database().ref('notifications/inviteNoti').orderByChild('userId').equalTo(user)
-            notiRef.on('value', snapshot => {
-                const notis = snapshot.val();
-                const notiList = []
-                for (let id in notis) {
-                    notiList.push(notis[id])
-                }
-                setNotiList(notiList);
-                console.log(notiList)
-            })
+        const notiRef = myFirebase.database().ref('notifications/inviteNoti').orderByChild('userId').equalTo(user)
+        notiRef.on('value', snapshot => {
+            const notis = snapshot.val();
+            const notiList = []
+            for (let id in notis) {
+                notiList.push(notis[ id ])
+            }
+            setNotiList(notiList);
+            console.log(notiList)
+        })
     }
     const dispatch = useDispatch();
     const history = useHistory();
@@ -95,30 +113,37 @@ const TrelloNav = (props) => {
         dispatch(logoutUser());
         history.push('/signin');
     }
-    
+    const handleShowInvite = () => {
+        setShowActionList(!showActionList);
+    }
     const isLoggedIn = (
         <>
-         <Menu  menuButton={<Badge onClick={handleMenuClick} color="secondary" variant="dot">
-             <MailIcon color="primary"/>
-             </Badge>} >
-             {notiList ? notiList.map((noti,i) =>
-                <MenuItem key={i}  href={noti.boardlink}  target="_blank" rel="noopener noreferrer">{noti.content}</MenuItem>
-            ) : <MenuItem>No notifications</MenuItem> }
+            <Menu menuButton={ <Badge onClick={ handleMenuClick } color="secondary" variant="dot" style={{marginRight : 10}}>
+                <MailIcon color="primary" />
+            </Badge> } >
+                { notiList ? notiList.map((noti, i) =>
+                    <MenuItem key={ i } href={ noti.boardlink } target="_blank" rel="noopener noreferrer">{ noti.content }</MenuItem>
+                ) : <MenuItem>No notifications</MenuItem> }
             </Menu>
-        <SignButton onMouseDown={handleSignOut}>Đăng xuất</SignButton>
+            <ListOptions onClick={ handleShowInvite }><ExitToAppIcon /></ListOptions>
+            { showActionList && (
+                <ActionLogout
+                    handleShowInvite={ handleShowInvite }
+                />
+            ) }
         </>
     );
     const isLoggedOut = (
         <Buttons>
-            <Link to="/signin" style={{ textDecoration: 'none' }}><SignButton>Sign in</SignButton></Link>
-            <Link to="/signup" style={{ textDecoration: 'none' }}><SignButton>Register</SignButton></Link>
+            <Link to="/signin" style={ { textDecoration: 'none' } }><SignButton>Sign in</SignButton></Link>
+            <Link to="/signup" style={ { textDecoration: 'none' } }><SignButton>Register</SignButton></Link>
         </Buttons>
     );
     return (
-        <MainNav color={newColor}>
+        <MainNav color={ newColor }>
             <Link to="/">
                 <SignButton>
-                    <FontAwesomeIcon icon={faHome} size="lg" />
+                    <FontAwesomeIcon icon={ faHome } size="lg" />
                 </SignButton>
             </Link>
             <Link to="/">
@@ -127,7 +152,7 @@ const TrelloNav = (props) => {
                 </Logo>
             </Link>
             <Buttons>
-                {!isLoading ? (isAuthenticated ? isLoggedIn : isLoggedOut) : null}
+                { !isLoading ? (isAuthenticated ? isLoggedIn : isLoggedOut) : null }
             </Buttons>
         </MainNav>
     );

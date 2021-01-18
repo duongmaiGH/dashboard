@@ -442,7 +442,7 @@ function BoardMenu(props) {
                         </Listlts>
                         <ListlT listlt={ !listlt }>
                             { list1.length !== 0 ? list1.map((object, index) => (
-                                <div>
+                                <div key={ index }>
                                     <Grid container style={ { "marginBottom": "10px", "marginTop": "10px" } }>
                                         <Grid item md={ 6 } style={ { wordBreak: 'break-word' } }>
                                             { object.name }

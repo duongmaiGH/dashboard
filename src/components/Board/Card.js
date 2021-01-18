@@ -33,6 +33,9 @@ import CheckList from '../BoardCardCheckList/CheckList';
 import TitleModal from '../BoardCardModalRest/TitleModal';
 import DayDeadLine from '../BoardCardModalRest/DayDeadLine';
 import Description from '../BoardCardModalRest/Description';
+import CommentIcon from '@material-ui/icons/Comment';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import AttachmentIcon from '@material-ui/icons/Attachment';
 const Div = styled.div`
     margin-bottom: 8px;
     margin-left: 8px;
@@ -307,12 +310,36 @@ function TrelloCard({ text, id, index, listID, title, boardId, indexList }, prop
                 { (provided) => (
                     <Div ref={ provided.innerRef } { ...provided.draggableProps } { ...provided.dragHandleProps }>
                         <StyledCard onClick={ handleOpen }>
-                            <StyledCardContent style={ { wordWrap: "break-word", width: "80%" } } >
-                                <div variant="body2" color="textSecondary" component="p">
-                                    { text }
-                                </div>
-                            </StyledCardContent>
-                            <CardOptions onMouseUp={ handleDeleteCard }><FontAwesomeIcon icon={ faTrash } /></CardOptions>
+                            <Grid container>
+                                <Grid item md={ 12 }>
+                                    <StyledCardContent style={ { wordWrap: "break-word", width: "80%" } } >
+                                        <div variant="body2" color="textSecondary" component="p">
+                                            { text }
+                                        </div>
+                                    </StyledCardContent>
+                                    <CardOptions onMouseUp={ handleDeleteCard } style={ { marginLeft: 9 } }><FontAwesomeIcon icon={ faTrash } /></CardOptions>
+                                </Grid>
+                                <Grid item md={ 3 }>
+                                    <Grid container style={ { padding: '0px 12px' } }>
+                                        <Grid item md={ 1 }>
+                                            <PlaylistAddCheckIcon />
+                                        </Grid>
+                                        <Grid item md={ 2 } style={ { "marginLeft": "25px" } }>
+                                            1/2
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid item md={ 3 }>
+                                    <Grid container style={ { padding: '0px 12px' } }>
+                                        <Grid item md={ 1 }>
+                                            <AttachmentIcon />
+                                        </Grid>
+                                        <Grid item md={ 2 } style={ { "marginLeft": "25px" } }>
+                                            1/2
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                         </StyledCard>
                     </Div>
                 ) }
@@ -381,7 +408,7 @@ function TrelloCard({ text, id, index, listID, title, boardId, indexList }, prop
                                                 <Grid item xs={ 12 } sm={ 12 }>
                                                     <Grid container>
                                                         <Grid item md={ 1 } >
-                                                            <FormatListNumberedIcon />
+                                                            <AttachmentIcon />
                                                         </Grid>
                                                         <Grid item md={ 11 } >
                                                             <div style={ { fontWeight: 'bold', marginBottom: 15 } }>Các Tập Tin Đính Kèm</div>
@@ -419,7 +446,7 @@ function TrelloCard({ text, id, index, listID, title, boardId, indexList }, prop
                                                 <Grid item xs={ 12 } sm={ 12 }>
                                                     <Grid container>
                                                         <Grid item md={ 1 } >
-                                                            <WorkIcon />
+                                                            <PlaylistAddCheckIcon />
                                                         </Grid>
                                                         <Grid item md={ 11 } >
                                                             <div className={ classes.listcv }>
@@ -432,7 +459,7 @@ function TrelloCard({ text, id, index, listID, title, boardId, indexList }, prop
                                                 <Grid item xs={ 12 } sm={ 12 } style={ { width: '100%' } }>
                                                     <Grid container style={ { width: '100%' } }>
                                                         <Grid item md={ 1 } style={ { width: '10%' } }>
-                                                            <WorkIcon />
+                                                            <CommentIcon />
                                                         </Grid>
                                                         <Grid item md={ 11 } style={ { width: '90%' } }>
                                                             <div className={ classes.listcv } style={ { width: 'auto' } }>

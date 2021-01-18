@@ -27,6 +27,7 @@ export default function Todo({ todo, boardId, indexCard, indexList }) {
       transitionProperty: "transform,opacity,height,padding,margin",
       transitionDuration: ".14s",
       transitionTimingFunction: "ease-in",
+      marginBottom: '5%'
     },
     check: {
       borderRadius: "2px",
@@ -48,7 +49,7 @@ export default function Todo({ todo, boardId, indexCard, indexList }) {
       marginBottom: "0",
       alignSelf: "center",
       flex: "1",
-      marginTop: -23,
+      marginTop: -35,
     },
     button: {
       backgroundColor: "#e4f0f6",
@@ -126,7 +127,7 @@ export default function Todo({ todo, boardId, indexCard, indexList }) {
           />
         </div>
         <div>
-          <div className={ classes.listitemcv }>
+          <div className={ classes.listitemcv } >
             { checkclick === false ? (
               <>
                 <Grid container style={ { width: '170%' } }>
